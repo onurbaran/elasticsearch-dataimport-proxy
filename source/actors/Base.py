@@ -25,24 +25,3 @@ class Importer(gevent.Greenlet):
             self._process(message)
 
 
-class MessageBase(gevent.Greenlet):
-
-    def __init__(self, consumer_factory_id):
-        self.inbox = Queue()
-        self._id = consumer_factory_id
-        print "message actor started consumer_factory_id : " + str(consumer_factory_id)
-        Greenlet.__init__(self)
-
-    def receive(self, message):
-        """
-        Define in your subclass.
-        """
-        raise NotImplemented()
-
-    def _run(self):
-        self.running = True
-
-        while self.running:
-            message = self.inbox.get()
-            self.receive(message)
-
